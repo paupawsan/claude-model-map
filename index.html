@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<!--
+MIT License
+
+Copyright (c) 2026 Paulus Ery Wasito Adhi <paupawsan@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING IN THE
+SOFTWARE.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Model Route Map — general use, agentic development, effort</title>
+
+<!-- Authorship and license metadata -->
+<meta name="author" content="Paulus Ery Wasito Adhi">
+<meta name="copyright" content="&copy; 2026 Paulus Ery Wasito Adhi">
+<meta name="license" content="MIT">
+<meta name="dcterms.creator" content="Paulus Ery Wasito Adhi">
+<meta name="dcterms.contributor" content="Claude (Anthropic)">
+<meta name="generator" content="Claude (Anthropic)">
+<meta name="dcterms.rights" content="&copy; 2026 Paulus Ery Wasito Adhi">
+<meta name="dcterms.license" content="https://opensource.org/licenses/MIT">
+<meta name="dcterms.dateCopyrighted" content="2026">
+<link rel="canonical" href="https://paupawsan.github.io/claude-model-map/">
+<link rel="license" href="https://opensource.org/licenses/MIT">
+<link rel="author" href="mailto:paupawsan@gmail.com">
+
+<meta name="description" content="Decision chart for choosing between Claude Fable 5, Opus 5, Sonnet 5 and Haiku 4.5 — general use and agentic development, with effort settings across three scales: per call, per thread, per loop. Bilingual EN/JA.">
+<meta name="keywords" content="Claude, Fable 5, Opus 5, Sonnet 5, Haiku 4.5, effort, task budget, agentic, model selection, モデル選択">
+<meta name="version" content="2026.07">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://paupawsan.github.io/claude-model-map/">
+<!-- Optional: add preview.png to the repo for a LinkedIn card with an image -->
+<!-- <meta property="og:image" content="https://paupawsan.github.io/claude-model-map/preview.png"> -->
+<meta property="og:title" content="Claude Model Route Map / Claude モデル選択マップ">
+<meta property="og:description" content="Two lanes for general use and agentic development, effort settings, and three scales: per call, per thread, per loop. EN/JA toggle.">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ja_JP">
+<meta property="article:author" content="Paulus Ery Wasito Adhi">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "Claude Model Route Map / Claude モデル選択マップ",
+  "alternateName": "Claude モデル選択マップ",
+  "description": "Bilingual decision chart for choosing between Claude Fable 5, Opus 5, Sonnet 5 and Haiku 4.5, covering general use and agentic development, with effort settings across three scales: per call, per thread, per loop.",
+  "inLanguage": ["en", "ja"],
+  "version": "2026.07",
+  "datePublished": "2026-07-28",
+  "dateModified": "2026-07-28",
+  "author": {
+    "@type": "Person",
+    "name": "Paulus Ery Wasito Adhi",
+    "email": "paupawsan@gmail.com"
+  },
+  "contributor": {
+    "@type": "SoftwareApplication",
+    "name": "Claude",
+    "applicationCategory": "AI assistant",
+    "provider": { "@type": "Organization", "name": "Anthropic" }
+  },
+  "copyrightHolder": {
+    "@type": "Person",
+    "name": "Paulus Ery Wasito Adhi"
+  },
+  "copyrightYear": 2026,
+  "creditText": "Paulus Ery Wasito Adhi <paupawsan@gmail.com>",
+  "license": "https://opensource.org/licenses/MIT",
+  "usageInfo": "MIT License. Free to use, modify, and redistribute with the copyright notice and license text retained."
+}
+</script>
+<style>
+  :root{
+    --paper:#E7EAEF;--board:#FFFFFF;--ink:#13161B;--ink2:#5B636E;--rule:#C6CDD7;
+    --amber:#EFB015;--haiku:#009C95;--sonnet:#1266C2;--opus:#6E45A8;--fable:#D0003C;
+    --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic","Noto Sans JP","Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5;padding:0 0 64px}
+  .wrap{max-width:840px;margin:0 auto;padding:0 16px}
+
+  header{background:var(--ink);color:#fff;padding:22px 0 20px;margin-bottom:8px}
+  .head-row{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap}
+  .mark{width:38px;height:38px;border-radius:50%;flex:0 0 auto;border:3px solid var(--amber);
+    display:grid;place-items:center;font-weight:800;font-size:15px;color:var(--amber)}
+  h1{font-size:24px;line-height:1.15;margin:0;font-weight:800;letter-spacing:-.01em}
+  .h1-en{display:block;font-size:12px;letter-spacing:.15em;font-weight:700;color:#9AA3B0;margin-top:7px}
+  .stamp{margin-top:13px;font-size:11px;color:#9AA3B0;letter-spacing:.05em;font-family:var(--mono)}
+  .toggle{margin-left:auto;display:flex;border:1px solid #3A414C;border-radius:2px;overflow:hidden}
+  .toggle button{font:inherit;font-size:12px;font-weight:700;letter-spacing:.05em;background:transparent;
+    color:#9AA3B0;border:0;padding:8px 13px;cursor:pointer}
+  .toggle button[aria-pressed="true"]{background:var(--amber);color:var(--ink)}
+  .toggle button:focus-visible{outline:2px solid #fff;outline-offset:-2px}
+
+  .scopebar{background:#1E222A;color:#9AA3B0;padding:11px 0;font-size:11.5px;line-height:1.6;margin-bottom:26px}
+  .scopebar b{color:#fff}
+
+  .sec{display:flex;align-items:baseline;gap:10px;margin:36px 0 14px}
+  .sec .n{font-family:var(--mono);font-size:11px;font-weight:800;color:#fff;background:var(--ink);
+    padding:3px 7px;border-radius:2px;letter-spacing:.05em}
+  .sec .t{font-size:15px;font-weight:800;letter-spacing:-.01em}
+  .sec .t em{font-style:normal;font-weight:600;color:var(--ink2);font-size:12.5px;margin-left:7px}
+  .sec::after{content:"";flex:1;height:1px;background:var(--rule)}
+  .lane{font-size:12px;font-weight:800;letter-spacing:.16em;color:var(--ink2);margin:22px 0 10px;
+    border-left:4px solid var(--ink);padding-left:9px}
+
+  .begin{background:var(--board);border-radius:3px;border-left:7px solid var(--amber);
+    box-shadow:0 1px 0 rgba(19,22,27,.10);padding:17px 19px;margin-bottom:10px}
+  .begin h3{margin:0 0 4px;font-size:16px;font-weight:800;letter-spacing:-.01em}
+  .begin p.lead{margin:0 0 13px;font-size:13.5px;color:var(--ink2);font-weight:600;line-height:1.5}
+  .begin ul.first{list-style:none;margin:0 0 16px;padding:0;font-size:13.5px}
+  .begin ul.first li{padding:8px 0;border-top:1px solid #EDF0F4;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .begin ul.first li b{margin-left:auto;font-weight:800;border-left:5px solid var(--c);padding-left:8px;white-space:nowrap}
+  .begin .glosshead{font-size:10.5px;font-weight:800;letter-spacing:.16em;color:var(--ink2);
+    border-top:1px solid var(--rule);padding-top:13px;margin-bottom:9px}
+  .begin dl{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:9px 20px;font-size:12.5px;line-height:1.45}
+  .begin dt{font-weight:800;font-family:var(--mono);font-size:12px}
+  .begin dd{margin:1px 0 0;color:var(--ink2)}
+  .begin .who{margin:15px 0 0;padding-top:12px;border-top:1px solid var(--rule);font-size:12.5px;
+    color:var(--ink2);line-height:1.55}
+  .begin .who b{color:var(--ink)}
+  @media (max-width:600px){.begin dl{grid-template-columns:1fr}}
+  .junction{background:var(--ink);color:#fff;border-radius:3px;padding:13px 15px;display:flex;gap:12px;
+    align-items:flex-start;margin:10px 0 0}
+  .jnum{flex:0 0 auto;width:25px;height:25px;border-radius:50%;background:var(--amber);color:var(--ink);
+    font-weight:800;font-size:11px;display:grid;place-items:center;font-family:var(--mono);margin-top:1px}
+  .q{font-size:14.5px;font-weight:700;line-height:1.4}
+  .q small{display:block;font-size:12px;font-weight:500;color:#9AA3B0;margin-top:4px;line-height:1.45}
+
+  .exits{margin:0 0 0 12px;padding:0}
+  .exit{border-left:3px solid var(--rule);padding:12px 0 0 18px}
+  .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.1em;padding:3px 9px;border-radius:2px;
+    color:#fff;position:relative;left:-30px;margin-right:-22px;white-space:nowrap}
+  .tag.a{background:#7A828E}
+  .tag.b{background:#1E7A43}
+
+  .dest{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);background:var(--board);
+    border-radius:3px;padding:10px 13px;margin-top:9px;border-left:6px solid var(--c);
+    box-shadow:0 1px 0 rgba(19,22,27,.10);flex-wrap:wrap}
+  .dest:hover{box-shadow:0 1px 0 rgba(19,22,27,.10),0 4px 14px rgba(19,22,27,.13)}
+  .dest:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .dest b{font-size:15px;font-weight:800;letter-spacing:-.01em}
+  .dest em{display:block;font-style:normal;font-size:11.5px;color:var(--ink2);font-weight:600;margin-top:2px}
+  .code{font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;background:var(--c);border-radius:50%;
+    width:25px;height:25px;display:grid;place-items:center;flex:0 0 auto}
+  .eff{margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:700;border:1.5px solid var(--ink);
+    border-radius:2px;padding:3px 7px;white-space:nowrap}
+  .eff.hi{background:var(--ink);color:#fff}
+  .eff.top{background:var(--amber);border-color:var(--amber)}
+  .eff.na{border-color:var(--rule);color:var(--ink2)}
+
+  .board{scroll-margin-top:14px;background:var(--board);border-radius:3px;margin-bottom:16px;overflow:hidden;border-top:7px solid var(--c);
+    box-shadow:0 1px 0 rgba(19,22,27,.10)}
+  .board-head{padding:15px 17px 12px;display:flex;gap:12px;align-items:flex-start}
+  .board h2{margin:0;font-size:19px;font-weight:800;letter-spacing:-.015em}
+  .tagline{margin:6px 0 0;font-size:13px;color:var(--ink2);font-weight:600;line-height:1.45}
+  .roles{padding:0 17px 13px;display:grid;gap:7px;font-size:13px}
+  .roles div{display:flex;gap:9px;align-items:baseline}
+  .roles span.k{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--c);border:1.5px solid var(--c);
+    border-radius:2px;padding:1px 6px;flex:0 0 auto}
+  .specs{display:flex;flex-wrap:wrap;gap:0 22px;padding:11px 17px;border-top:1px solid #EDF0F4;background:#FAFBFC}
+  .specs div{font-size:11px;color:var(--ink2);font-weight:700;letter-spacing:.03em}
+  .specs b{display:block;font-family:var(--mono);font-size:12.5px;color:var(--ink);font-weight:700;margin-top:2px}
+  ul.uses{list-style:none;margin:0;padding:13px 17px;border-top:1px solid #EDF0F4;display:grid;
+    grid-template-columns:1fr 1fr;gap:6px 16px;font-size:13px}
+  ul.uses li{position:relative;padding-left:14px;line-height:1.4}
+  ul.uses li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--c)}
+  .note{margin:0;padding:12px 17px;background:#F5F7FA;border-top:1px solid #EDF0F4;font-size:12.5px;
+    color:var(--ink2);line-height:1.55}
+  .note b{color:var(--ink)}
+
+  .ladder{background:var(--board);border-radius:3px;overflow:hidden;box-shadow:0 1px 0 rgba(19,22,27,.10)}
+  .rung{display:flex;gap:13px;padding:13px 15px;border-top:1px solid #EDF0F4;align-items:flex-start}
+  .rung:first-child{border-top:0}
+  .rung .lvl{font-family:var(--mono);font-size:12px;font-weight:800;flex:0 0 62px}
+  .rung .bar{flex:0 0 46px;display:flex;gap:2px;margin-top:4px}
+  .rung .bar i{flex:1;height:8px;background:#DDE2E9;display:block}
+  .rung .bar i.on{background:var(--ink)}
+  .rung.max .bar i.on{background:var(--amber)}
+  .rung p{margin:0;font-size:13px;line-height:1.45}
+  .rung p small{display:block;color:var(--ink2);font-size:11.5px;margin-top:3px}
+
+  table{width:100%;border-collapse:collapse;background:var(--board);border-radius:3px;overflow:hidden;font-size:13px}
+  caption{text-align:left;font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--ink2);padding:0 0 8px}
+  td{padding:11px 13px;border-top:1px solid #EDF0F4;vertical-align:middle}
+  tr:first-child td{border-top:0}
+  td.pick{width:1%;white-space:nowrap;font-weight:800;text-align:right}
+  td.pick span{border-left:5px solid var(--c);padding-left:8px}
+  td.e{width:1%;white-space:nowrap;font-family:var(--mono);font-size:11.5px;font-weight:700;text-align:right;color:var(--ink2)}
+  table.gap{margin-bottom:20px}
+
+  ol.ops{margin:0;padding:0;list-style:none;counter-reset:op}
+  ol.ops li{background:var(--board);border-radius:3px;padding:12px 15px 12px 44px;margin-bottom:8px;position:relative;
+    font-size:13px;line-height:1.5;box-shadow:0 1px 0 rgba(19,22,27,.10)}
+  ol.ops li::before{counter-increment:op;content:counter(op,decimal-leading-zero);position:absolute;left:14px;top:12px;
+    font-family:var(--mono);font-size:10.5px;font-weight:800;color:var(--amber);background:var(--ink);
+    width:21px;height:21px;border-radius:50%;display:grid;place-items:center}
+  ol.ops b{font-weight:800;color:var(--ink)}
+  code{font-family:var(--mono);font-size:12px;background:#EDF0F4;padding:1px 5px;border-radius:2px}
+
+  footer .lic{margin-top:11px;padding-top:11px;border-top:1px solid var(--rule);
+    font-size:11.5px;letter-spacing:.02em}
+  footer .lic b{font-weight:700;color:var(--ink)}
+  footer{margin-top:18px;font-size:12px;color:var(--ink2);line-height:1.6}
+  footer p{margin:0 0 7px}
+  [data-lang-hide]{display:none}
+
+  @media (max-width:600px){
+    h1{font-size:20px}
+    ul.uses{grid-template-columns:1fr}
+    .rung .lvl{flex:0 0 54px}
+  }
+  @media print{
+    body{background:#fff}
+    header,.scopebar{background:#fff;color:#000;border-bottom:2px solid #000}
+    .h1-en,.stamp,.scopebar{color:#555}
+    .toggle{display:none}
+    .junction{background:#fff;color:#000;border:2px solid #000}
+    .q small{color:#555}
+    .board,.dest,ol.ops li,.ladder{box-shadow:none;border:1px solid #ccc}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap head-row">
+    <div class="mark">C</div>
+    <div>
+      <h1>
+        <span data-ja>Claude モデル選択マップ</span>
+        <span data-en>Claude Model Route Map</span>
+        <span class="h1-en" data-ja>一般利用・エージェント開発・effort 設定 / 2026.07</span>
+        <span class="h1-en" data-en>General use · agentic development · effort / 2026.07</span>
+      </h1>
+      <div class="stamp">VERIFIED 2026-07-28 · FABLE 5 · OPUS 5 · SONNET 5 · HAIKU 4.5</div>
+    </div>
+    <div class="toggle" role="group" aria-label="Language">
+      <button id="btn-en" aria-pressed="true">EN</button>
+      <button id="btn-ja" aria-pressed="false">日本語</button>
+    </div>
+  </div>
+</header>
+
+<div class="scopebar">
+  <div class="wrap">
+    <span data-ja><b>3つのスケールで決める。</b> 01 呼び出し単位＝モデルと effort ／ 02 スレッド単位＝固定するもの ／ 03 ループ全体＝予算と受け渡し。</span>
+    <span data-en><b>Three scales.</b> 01 per call — model and effort · 02 per thread — what to hold constant · 03 per loop — budget and handoffs.</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="sec"><span class="n">00</span><span class="t"><span data-en>Start here</span><span data-ja>はじめに</span><em data-en>if you just want an answer</em><em data-ja>とりあえず答えが欲しい人へ</em></span></div>
+
+  <div class="begin">
+    <h3><span data-en>Use Claude Sonnet 5.</span><span data-ja>まず Claude Sonnet 5 を使ってください。</span></h3>
+    <p class="lead">
+      <span data-en>That's the honest answer for most everyday work. Don't change anything until something actually goes wrong — then move in whichever direction it went wrong.</span>
+      <span data-ja>日常業務のほとんどはこれで足ります。何か困るまでは触らなくて大丈夫です。困ったときだけ、困った方向に動かします。</span>
+    </p>
+    <ul class="first">
+      <li style="--c:var(--haiku)"><span data-en>Too slow or too expensive, and you're running it thousands of times</span><span data-ja>遅い・高い。しかも何千回も回している</span><b>Haiku 4.5</b></li>
+      <li style="--c:var(--opus)"><span data-en>Not sharp enough on something genuinely hard</span><span data-ja>本当に難しい問題で、切れ味が足りない</span><b>Opus 5</b></li>
+      <li style="--c:var(--fable)"><span data-en>Running unattended for hours, or many agents at once</span><span data-ja>無人で何時間も走らせる。複数のエージェントを同時に動かす</span><b>Fable 5</b></li>
+    </ul>
+
+    <div class="glosshead"><span data-en>WORDS USED ON THIS PAGE</span><span data-ja>このページで使う言葉</span></div>
+    <dl>
+      <dt><span data-en>Token</span><span data-ja>トークン</span></dt>
+      <dd><span data-en>The chunk text is counted and billed in — roughly ¾ of an English word. MTok means one million of them.</span><span data-ja>文章を数える単位。料金もこれで決まります。MTok は100万トークン。</span></dd>
+
+      <dt><span data-en>Context window</span><span data-ja>コンテキストウィンドウ</span></dt>
+      <dd><span data-en>How much it can hold at once — the whole conversation plus anything you attached.</span><span data-ja>一度に抱えられる量。会話全体と、渡したファイルを含みます。</span></dd>
+
+      <dt><span data-en>Effort</span><span data-ja>effort（エフォート）</span></dt>
+      <dd><span data-en>A dial for how much work it puts in before answering: low to max, default high.</span><span data-ja>答えるまでにどれだけ手をかけるかのつまみ。low〜max、既定は high。</span></dd>
+
+      <dt><span data-en>Thinking</span><span data-ja>thinking（思考）</span></dt>
+      <dd><span data-en>Reasoning it does before replying. You pay for it as output.</span><span data-ja>返答の前に行う内部の推論。出力として課金されます。</span></dd>
+
+      <dt><span data-en>Agent</span><span data-ja>エージェント</span></dt>
+      <dd><span data-en>Claude running in a loop with tools, taking several steps on its own before coming back.</span><span data-ja>ツールを使って自分で何手か進んでから戻ってくる動かし方。</span></dd>
+
+      <dt><span data-en>Orchestrator / subagent</span><span data-ja>オーケストレーター／サブエージェント</span></dt>
+      <dd><span data-en>The one that plans and hands out work, versus the ones doing a single piece of it.</span><span data-ja>計画して振り分ける側と、一つ分の作業をこなす側。</span></dd>
+
+      <dt><span data-en>Prompt caching</span><span data-ja>プロンプトキャッシュ</span></dt>
+      <dd><span data-en>Reusing the unchanged front of a prompt so repeat calls cost less and start faster.</span><span data-ja>変わらない前半を使い回して、繰り返しの呼び出しを安く速くする仕組み。</span></dd>
+
+      <dt><span data-en>Task budget</span><span data-ja>task budget</span></dt>
+      <dd><span data-en>A token allowance for a whole agent run, not just one reply.</span><span data-ja>1回の返答ではなく、実行全体に与えるトークンの持ち分。</span></dd>
+    </dl>
+
+    <p class="who">
+      <span data-en><b>Not building software?</b> Lane A in section 01, the effort levels in 04, and the first table in 05 are all you need. Sections 02 and 03 are for people wiring Claude into a system, and can be skipped without missing anything.</span>
+      <span data-ja><b>開発者でない場合は</b>、01 のレーン A、04 の effort、05 の一般利用の表だけで十分です。02 と 03 は Claude をソフトウェアに組み込む人向けなので、読み飛ばして問題ありません。</span>
+    </p>
+  </div>
+
+  <div class="sec"><span class="n">01</span><span class="t"><span data-ja>呼び出し単位</span><span data-en>Per call</span><em data-ja>モデルと effort を選ぶ</em><em data-en>pick model and effort</em></span></div>
+
+  <div class="lane"><span data-ja>レーン A — 一般利用</span><span data-en>LANE A — GENERAL USE</span></div>
+
+  <div class="junction">
+    <div class="jnum">A1</div>
+    <div class="q">
+      <span data-ja>込み入った判断・分析が必要ですか？</span>
+      <span data-en>Does it need real analysis or judgment?</span>
+    </div>
+  </div>
+  <div class="exits">
+    <div class="exit">
+      <span class="tag a"><span data-ja>いいえ</span><span data-en>NO</span></span>
+      <div class="junction">
+        <div class="jnum">A2</div>
+        <div class="q">
+          <span data-ja>同じ形の短い処理を大量に回しますか？</span>
+          <span data-en>Are you running the same short step in bulk?</span>
+          <small data-ja>分類・抽出・整形・タグ付けなど。</small>
+          <small data-en>Classify, extract, format, tag.</small>
+        </div>
+      </div>
+      <div class="exits">
+        <div class="exit">
+          <span class="tag b"><span data-ja>はい</span><span data-en>YES</span></span>
+          <a class="dest" href="#haiku" style="--c:var(--haiku)"><span class="code">H</span>
+            <span><b>Claude Haiku 4.5</b><em data-ja>大量処理</em><em data-en>Bulk steps</em></span>
+            <span class="eff na">effort —</span></a>
+        </div>
+        <div class="exit">
+          <span class="tag a"><span data-ja>いいえ</span><span data-en>NO</span></span>
+          <a class="dest" href="#sonnet" style="--c:var(--sonnet)"><span class="code">S</span>
+            <span><b>Claude Sonnet 5</b><em data-ja>チャット・文章・下調べ</em><em data-en>Chat, writing, lookups</em></span>
+            <span class="eff">low – medium</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="exit">
+      <span class="tag b"><span data-ja>はい</span><span data-en>YES</span></span>
+      <div class="junction">
+        <div class="jnum">A3</div>
+        <div class="q">
+          <span data-ja>間違いのコストが高い一発勝負ですか？</span>
+          <span data-en>Is this one-shot, where being wrong is expensive?</span>
+        </div>
+      </div>
+      <div class="exits">
+        <div class="exit">
+          <span class="tag a"><span data-ja>いいえ</span><span data-en>NO</span></span>
+          <a class="dest" href="#sonnet" style="--c:var(--sonnet)"><span class="code">S</span>
+            <span><b>Claude Sonnet 5</b><em data-ja>調査・要約・コード</em><em data-en>Research, summaries, code</em></span>
+            <span class="eff hi">high</span></a>
+        </div>
+        <div class="exit">
+          <span class="tag b"><span data-ja>はい</span><span data-en>YES</span></span>
+          <a class="dest" href="#opus" style="--c:var(--opus)"><span class="code">O</span>
+            <span><b>Claude Opus 5</b><em data-ja>難問・重い分析</em><em data-en>Hard problems, deep analysis</em></span>
+            <span class="eff top">high – max</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="note" style="margin-top:12px;border-radius:3px;border:1px solid #DDE2E9">
+    <span data-ja><b>一般利用で Fable 5 まで上げる必要はほぼありません。</b> 対話用途の上限は Opus 5 の max で足ります。</span>
+    <span data-en><b>General use rarely needs Fable 5.</b> For conversational work, Opus 5 at max is the ceiling that matters.</span>
+  </p>
+
+  <div class="lane"><span data-ja>レーン B — エージェント開発</span><span data-en>LANE B — AGENTIC DEVELOPMENT</span></div>
+
+  <div class="junction">
+    <div class="jnum">B1</div>
+    <div class="q">
+      <span data-ja>この呼び出しは、次に何をするかを決めますか？</span>
+      <span data-en>Does this call decide what happens next?</span>
+      <small data-ja>計画・分解・委譲・統合＝判断。決まった手順をこなす＝実行。</small>
+      <small data-en>Planning, decomposing, delegating, merging = decides. Carrying out a defined step = executes.</small>
+    </div>
+  </div>
+  <div class="exits">
+    <div class="exit">
+      <span class="tag a"><span data-ja>実行する</span><span data-en>EXECUTES</span></span>
+      <div class="junction">
+        <div class="jnum">B2</div>
+        <div class="q">
+          <span data-ja>その手順に設計判断は含まれますか？</span>
+          <span data-en>Does the step involve design judgment?</span>
+        </div>
+      </div>
+      <div class="exits">
+        <div class="exit">
+          <span class="tag a"><span data-ja>いいえ</span><span data-en>NO</span></span>
+          <a class="dest" href="#haiku" style="--c:var(--haiku)"><span class="code">H</span>
+            <span><b>Claude Haiku 4.5</b><em data-ja>末端ワーカー</em><em data-en>Leaf worker</em></span>
+            <span class="eff na">effort —</span></a>
+          <a class="dest" href="#sonnet" style="--c:var(--sonnet)"><span class="code">S</span>
+            <span><b>Claude Sonnet 5</b><em data-ja>サブエージェント</em><em data-en>Subagent</em></span>
+            <span class="eff">low</span></a>
+        </div>
+        <div class="exit">
+          <span class="tag b"><span data-ja>はい</span><span data-en>YES</span></span>
+          <a class="dest" href="#sonnet" style="--c:var(--sonnet)"><span class="code">S</span>
+            <span><b>Claude Sonnet 5</b><em data-ja>フィーチャーワーカー（既定）</em><em data-en>Feature worker (default)</em></span>
+            <span class="eff hi">high → xhigh</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="exit">
+      <span class="tag b"><span data-ja>判断する</span><span data-en>DECIDES</span></span>
+      <div class="junction">
+        <div class="jnum">B3</div>
+        <div class="q">
+          <span data-ja>無人で 30 分以上走らせる、または複数エージェントを並列に統括しますか？</span>
+          <span data-en>Does it run unattended past 30 minutes, or lead parallel agents?</span>
+        </div>
+      </div>
+      <div class="exits">
+        <div class="exit">
+          <span class="tag a"><span data-ja>いいえ</span><span data-en>NO</span></span>
+          <a class="dest" href="#opus" style="--c:var(--opus)"><span class="code">O</span>
+            <span><b>Claude Opus 5</b><em data-ja>オーケストレーター</em><em data-en>Orchestrator</em></span>
+            <span class="eff hi">high</span></a>
+        </div>
+        <div class="exit">
+          <span class="tag b"><span data-ja>はい</span><span data-en>YES</span></span>
+          <div class="junction">
+            <div class="jnum">B4</div>
+            <div class="q">
+              <span data-ja>すべての分岐でフロンティア級の推論が要り、その予算がありますか？</span>
+              <span data-en>Does every hop need frontier reasoning, and is the budget there?</span>
+            </div>
+          </div>
+          <div class="exits">
+            <div class="exit">
+              <span class="tag a"><span data-ja>いいえ</span><span data-en>NO</span></span>
+              <a class="dest" href="#opus" style="--c:var(--opus)"><span class="code">O</span>
+                <span><b>Claude Opus 5</b><em data-ja>長時間オーケストレーション</em><em data-en>Long-run orchestration</em></span>
+                <span class="eff hi">xhigh</span></a>
+            </div>
+            <div class="exit">
+              <span class="tag b"><span data-ja>はい</span><span data-en>YES</span></span>
+              <a class="dest" href="#fable" style="--c:var(--fable)"><span class="code">F</span>
+                <span><b>Claude Fable 5</b><em data-ja>最難関・並列統括</em><em data-en>Hardest work, parallel lead</em></span>
+                <span class="eff top">xhigh – max</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec"><span class="n">02</span><span class="t"><span data-ja>スレッド単位</span><span data-en>Per thread</span><em data-ja>会話が続くときに効いてくること</em><em data-en>what matters once it's a conversation</em></span></div>
+
+  <ol class="ops">
+    <li><span data-ja><b>effort はスレッド開始時に決めて、途中で変えない。</b> effort はリクエスト単位の設定なので次のリクエストから変えられますが、同じ会話の中で深さが変わると、ターンごとに挙動が揺れます。振り分けるならワークロード単位で。</span>
+        <span data-en><b>Pick effort at the start of a thread and hold it.</b> It's a per-request setting so you can change it on the next call, but swapping depth inside one conversation makes the behaviour inconsistent from turn to turn. Vary it across workloads, not within a thread.</span></li>
+    <li><span data-ja><b>モデルを上げるときは、履歴ごと持ち上げない。</b> 長いスレッドをそのまま上位モデルに流すと、毎ターン全履歴が入力課金されます。要点を要約して新しいスレッドで上げるほうが安く、精度も落ちません。</span>
+        <span data-en><b>Escalating? Don't drag the history up with you.</b> Piping a long thread into a bigger model re-bills the whole transcript every turn. Summarize and start a fresh thread at the higher tier instead.</span></li>
+    <li><span data-ja><b>長いスレッドは compaction / context editing で畳む。</b> 会話が伸びるほど毎ターンの入力が増えます。一般利用なら、話題が変わった時点で新しいチャットを始めるのが最も効きます。</span>
+        <span data-en><b>Fold long threads with compaction or context editing.</b> Input grows every turn a thread runs. In general use the simplest version is: new topic, new chat.</span></li>
+    <li><span data-ja><b>運用上の変化はユーザー発話に混ぜない。</b> ファイルが変わった、権限が変わった、ツールが増えた——こうした事実は mid-conversation system message として入れます。</span>
+        <span data-en><b>Don't smuggle operator facts into user turns.</b> Files changed, permissions changed, tools added — send those as mid-conversation system messages.</span></li>
+    <li><span data-ja><b>キャッシュの最小長を確認する。</b> キャッシュ可能な接頭部は Opus 5 と Fable 5 で 512 トークン、Sonnet 5 で 1,024、Haiku 4.5 で 4,096 です。これを下回るとキャッシュされず、しかもエラーは返りません。気づかないまま通常料金を払い続けることになります。</span>
+        <span data-en><b>Check the cache minimum before you count on caching.</b> The cacheable prefix is 512 tokens on Opus 5 and Fable 5, 1,024 on Sonnet 5, and 4,096 on Haiku 4.5. Below that nothing is cached and no error is returned — you just quietly pay full price.</span></li>
+  </ol>
+
+  <div class="sec"><span class="n">03</span><span class="t"><span data-ja>ループ全体</span><span data-en>Per loop</span><em data-ja>複数呼び出し・複数エージェント</em><em data-en>many calls, many agents</em></span></div>
+
+  <ol class="ops">
+    <li><span data-ja><b>effort は1ステップの深さ、task budget はループ全体の幅。</b> 両方あって初めて制御になります。<code>output_config.task_budget</code> に <code>{"type": "tokens", "total": N}</code> を渡すと、モデルは残量カウントダウンを見ながら優先順位をつけ、途中で切れずに畳んで終われます。</span>
+        <span data-en><b>Effort tunes depth per step; task budget tunes breadth across the loop.</b> You need both. Set <code>output_config.task_budget</code> to <code>{"type": "tokens", "total": N}</code> and the model paces itself against a running countdown, wrapping up cleanly instead of getting cut off.</span></li>
+    <li><span data-ja><b>task budget はベータ。</b> ヘッダ <code>task-budgets-2026-03-13</code> が必要で、Opus 5・Fable 5・Sonnet 5 は対応、Haiku 4.5 は非対応。最小値は 20,000 トークン。</span>
+        <span data-en><b>Task budgets are beta.</b> Header <code>task-budgets-2026-03-13</code>; supported on Opus 5, Fable 5, and Sonnet 5, not on Haiku 4.5. Minimum total is 20,000 tokens.</span></li>
+    <li><span data-ja><b>予算は「目安」であって上限ではない。</b> 硬い上限は <code>max_tokens</code> のほうです。xhigh / max で回すなら <code>max_tokens</code> は 64k 以上を確保します。</span>
+        <span data-en><b>The budget is advisory, not a cap.</b> <code>max_tokens</code> is the hard ceiling. Running at xhigh or max, give it at least 64k.</span></li>
+    <li><span data-ja><b>予算は小さすぎるほうが危ない。</b> 明らかに足りない値を見せると、モデルは着手を断ったり、勝手に縮小したり、早期に打ち切ったりします。まず予算なしで実測し、p99 から始めて調整してください。</span>
+        <span data-en><b>Too small is the dangerous direction.</b> Shown a budget that clearly can't cover the task, the model may decline it, scope it down, or stop early. Measure without a budget first, start at your p99, tune from there.</span></li>
+    <li><span data-ja><b>サブエージェントは別スレッド、別 effort。</b> 親には要約だけを返し、生ログは戻さない。オーケストレーターが持つのは計画と契約だけにします。</span>
+        <span data-en><b>Give each subagent its own thread and its own effort.</b> Return summaries to the parent, never raw logs. The orchestrator holds the plan and the contracts, nothing else.</span></li>
+    <li><span data-ja><b>セッション全体で起動するサブエージェント数に上限を置く。</b> 1回の呼び出しごとではなく、セッション累計で数える。暴走した計画がクォータを食い尽くすのを止められるのはここだけです。</span>
+        <span data-en><b>Cap total subagents per session, not per call.</b> Counting cumulatively across the session is the only place a runaway plan can be stopped before it eats the quota.</span></li>
+    <li><span data-ja><b>降格の順序を設定に書く。</b> Fable 5 → Opus 5 → Sonnet 5。API では降格は自動ではなく、<code>fallbacks</code> パラメータなどで明示的に有効にする必要があります。あわせて、実際に応答したモデルをログに残します。フォールバックされたターンでは、レスポンスの <code>model</code> フィールドは要求したモデルではなく実際に応答したモデルを返します。</span>
+        <span data-en><b>Put the fallback ladder in config.</b> Fable 5 → Opus 5 → Sonnet 5. Nothing steps down on its own — on the API you have to enable it, via the <code>fallbacks</code> parameter or your own retry. Log which model actually answered: on a fallback-served turn the response's <code>model</code> field reports the model that served it, not the one you asked for.</span></li>
+  </ol>
+
+  <div class="sec"><span class="n">04</span><span class="t"><span data-ja>effort の 5 段階</span><span data-en>The five effort levels</span></span></div>
+
+  <div class="ladder">
+    <div class="rung">
+      <span class="lvl">low</span>
+      <span class="bar"><i class="on"></i><i></i><i></i><i></i><i></i></span>
+      <p><span data-ja>速度と費用が最優先。分類、簡単な検索、サブエージェント。<small>ツール呼び出しも減り、前置きなしで動きます。</small></span>
+         <span data-en>Speed and cost first — classification, quick lookups, subagents.<small>It also makes fewer tool calls and skips the preamble.</small></span></p>
+    </div>
+    <div class="rung">
+      <span class="lvl">medium</span>
+      <span class="bar"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
+      <p><span data-ja>バランス型。費用を抑えつつ十分な性能が要るとき。<small>Sonnet 5 では既定からの素直な節約段。</small></span>
+         <span data-en>Balanced — solid results without the full token spend.<small>On Sonnet 5, the clean cost step-down from default.</small></span></p>
+    </div>
+    <div class="rung">
+      <span class="lvl">high</span>
+      <span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
+      <p><span data-ja><b>既定値。</b> 複雑な推論、難しいコーディング、エージェント処理。<small>指定しないのと同じ挙動。API と Claude Code の初期値。</small></span>
+         <span data-en><b>The default.</b> Complex reasoning, hard coding, agentic work.<small>Identical to omitting the parameter. This is what the API and Claude Code start at.</small></span></p>
+    </div>
+    <div class="rung">
+      <span class="lvl">xhigh</span>
+      <span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
+      <p><span data-ja>30 分を超える長丁場のエージェント／コーディング。<small>Fable 5・Opus 5・Sonnet 5 で利用可。max_tokens を大きく取ること。</small></span>
+         <span data-en>Long-horizon agentic and coding runs past 30 minutes.<small>Available on Fable 5, Opus 5, Sonnet 5. Pair it with a large max_tokens.</small></span></p>
+    </div>
+    <div class="rung max">
+      <span class="lvl">max</span>
+      <span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
+      <p><span data-ja>制約なしの最大能力。最も深い推論が要る場面だけに。<small>Haiku 4.5 は effort 自体に非対応。</small></span>
+         <span data-en>Maximum capability, no constraints on spend. Reserve it.<small>Haiku 4.5 doesn't support the effort parameter at all.</small></span></p>
+    </div>
+  </div>
+
+  <div class="sec"><span class="n">05</span><span class="t"><span data-ja>使い分け表</span><span data-en>Use case table</span></span></div>
+
+  <table class="gap">
+    <caption><span data-en>GENERAL USE</span><span data-ja>一般利用</span></caption>
+    <tr style="--c:var(--sonnet)"><td><span data-ja>短い質問・事実確認</span><span data-en>Quick questions, fact checks</span></td><td class="pick"><span>Sonnet 5</span></td><td class="e">low</td></tr>
+    <tr style="--c:var(--sonnet)"><td><span data-ja>チャット・文章作成</span><span data-en>Chat and writing</span></td><td class="pick"><span>Sonnet 5</span></td><td class="e">low – medium</td></tr>
+    <tr style="--c:var(--sonnet)"><td><span data-ja>調べもの＋要約</span><span data-en>Research and summarize</span></td><td class="pick"><span>Sonnet 5</span></td><td class="e">medium – high</td></tr>
+    <tr style="--c:var(--sonnet)"><td><span data-ja>コード書き・デバッグ</span><span data-en>Writing and debugging code</span></td><td class="pick"><span>Sonnet 5</span></td><td class="e">high</td></tr>
+    <tr style="--c:var(--opus)"><td><span data-ja>込み入った分析・意思決定</span><span data-en>Involved analysis, decisions</span></td><td class="pick"><span>Opus 5</span></td><td class="e">high</td></tr>
+    <tr style="--c:var(--opus)"><td><span data-ja>一発勝負の難問</span><span data-en>One-shot hard problems</span></td><td class="pick"><span>Opus 5</span></td><td class="e">max</td></tr>
+    <tr style="--c:var(--haiku)"><td><span data-ja>大量の分類・抽出・整形</span><span data-en>Bulk classify, extract, format</span></td><td class="pick"><span>Haiku 4.5</span></td><td class="e">—</td></tr>
+  </table>
+
+  <table>
+    <caption><span data-en>AGENTIC DEVELOPMENT</span><span data-ja>エージェント開発</span></caption>
+    <tr style="--c:var(--haiku)"><td><span data-ja>末端処理・判断を含まない手順</span><span data-en>Leaf steps, no judgment</span></td><td class="pick"><span>Haiku 4.5</span></td><td class="e">—</td></tr>
+    <tr style="--c:var(--sonnet)"><td><span data-ja>サブエージェント</span><span data-en>Subagents</span></td><td class="pick"><span>Sonnet 5</span></td><td class="e">low</td></tr>
+    <tr style="--c:var(--sonnet)"><td><span data-ja>ツールを多用するワークフロー</span><span data-en>Tool-heavy workflows</span></td><td class="pick"><span>Sonnet 5</span></td><td class="e">medium</td></tr>
+    <tr style="--c:var(--sonnet)"><td><span data-ja>日常のコーディングエージェント</span><span data-en>Day-to-day coding agents</span></td><td class="pick"><span>Sonnet 5</span></td><td class="e">high</td></tr>
+    <tr style="--c:var(--sonnet)"><td><span data-ja>難易度の高いコーディング</span><span data-en>Hardest coding tasks</span></td><td class="pick"><span>Sonnet 5</span></td><td class="e">xhigh</td></tr>
+    <tr style="--c:var(--opus)"><td><span data-ja>オーケストレーション（分解・統合）</span><span data-en>Orchestration: decompose, merge</span></td><td class="pick"><span>Opus 5</span></td><td class="e">high</td></tr>
+    <tr style="--c:var(--opus)"><td><span data-ja>30 分超の自律実行</span><span data-en>Unattended runs past 30 min</span></td><td class="pick"><span>Opus 5</span></td><td class="e">xhigh</td></tr>
+    <tr style="--c:var(--fable)"><td><span data-ja>最難関・並列エージェント統括</span><span data-en>Hardest work, parallel lead</span></td><td class="pick"><span>Fable 5</span></td><td class="e">xhigh – max</td></tr>
+  </table>
+
+  <div class="sec"><span class="n">06</span><span class="t"><span data-ja>各モデルの詳細</span><span data-en>Models</span></span></div>
+
+  <section class="board" id="sonnet" style="--c:var(--sonnet)">
+    <div class="board-head"><span class="code">S</span>
+      <div><h2>Claude Sonnet 5</h2>
+        <p class="tagline"><span data-ja>速度と知能の組み合わせが最も良いモデル。既定はここ。</span>
+          <span data-en>The best combination of speed and intelligence. This is the default.</span></p></div>
+    </div>
+    <div class="roles">
+      <div><span class="k" data-ja>一般</span><span class="k" data-en>GENERAL</span><span data-ja>日常のチャット、文章、調査、コーディング</span><span data-en>Everyday chat, writing, research, coding</span></div>
+      <div><span class="k" data-ja>エージェント</span><span class="k" data-en>AGENTIC</span><span data-ja>フィーチャーワーカー、サブエージェント</span><span data-en>Feature worker, subagent</span></div>
+      <div><span class="k">effort</span><span data-ja>既定 high ／ 節約は medium ／ 難所は xhigh ／ 大量処理は low</span><span data-en>high by default · medium to save · xhigh when stuck · low at volume</span></div>
+    </div>
+    <div class="specs">
+      <div><span data-ja>価格 / MTok</span><span data-en>PRICE / MTok</span><b>$3 · $15</b></div>
+      <div><span data-ja>コンテキスト</span><span data-en>CONTEXT</span><b>1M</b></div>
+      <div><span data-ja>最大出力</span><span data-en>MAX OUTPUT</span><b>128k</b></div>
+      <div><span data-ja>知識</span><span data-en>KNOWLEDGE</span><b>2026-01</b></div>
+    </div>
+    <ul class="uses">
+      <li><span data-ja>1機能＝1コンテキストの実装</span><span data-en>Work inside one feature boundary</span></li>
+      <li><span data-ja>デバッグ・テスト作成</span><span data-en>Debugging and writing tests</span></li>
+      <li><span data-ja>ツール呼び出しワークフロー</span><span data-en>Tool-calling workflows</span></li>
+      <li><span data-ja>調査と要約</span><span data-en>Research and summaries</span></li>
+      <li><span data-ja>文章作成・編集</span><span data-en>Writing and editing</span></li>
+      <li><span data-ja>Claude Code の日常セッション</span><span data-en>Day-to-day Claude Code</span></li>
+    </ul>
+    <p class="note"><span data-ja><b>まずここで通す。</b> ワーカー呼び出しがトークン消費の大半を占めます。全体を Sonnet 5 で走らせ、詰まった箇所だけ上げるほうが、最初から上位に振るより安く速く着きます。Sonnet 5 は新しいトークナイザを採用しており、同じ文章でも Sonnet 4.6 より約 30% 多いトークン数になります。単価は据え置きですが、4.6 基準で組んだ見積もりは低く出ます。導入価格 $2 / $10 は 2026年8月31日まで。</span>
+      <span data-en><b>Run the pass here first.</b> Worker calls dominate spend — run everything on Sonnet 5 and escalate only where it stalls. Sonnet 5 also ships a new tokenizer: the same text produces about 30% more tokens than on Sonnet 4.6, so per-token rates are unchanged but any budget sized on 4.6 runs low. Introductory pricing of $2 / $10 runs through August 31, 2026.</span></p>
+  </section>
+
+  <section class="board" id="opus" style="--c:var(--opus)">
+    <div class="board-head"><span class="code">O</span>
+      <div><h2>Claude Opus 5</h2>
+        <p class="tagline"><span data-ja>複雑なエージェント型コーディングと業務向け。迷ったらここから。</span>
+          <span data-en>For complex agentic coding and enterprise work. The docs' own starting point.</span></p></div>
+    </div>
+    <div class="roles">
+      <div><span class="k" data-ja>一般</span><span class="k" data-en>GENERAL</span><span data-ja>重い分析、難問、長文の技術文書</span><span data-en>Deep analysis, hard problems, long technical writing</span></div>
+      <div><span class="k" data-ja>エージェント</span><span class="k" data-en>AGENTIC</span><span data-ja>オーケストレーター、横断的な設計</span><span data-en>Orchestrator, cross-cutting design</span></div>
+      <div><span class="k">effort</span><span data-ja>既定 high ／ コーディングは xhigh ／ 余力が測れたら low・medium も積極的に</span><span data-en>high by default · xhigh for coding · use low and medium freely where evals hold</span></div>
+    </div>
+    <div class="specs">
+      <div><span data-ja>価格 / MTok</span><span data-en>PRICE / MTok</span><b>$5 · $25</b></div>
+      <div><span data-ja>コンテキスト</span><span data-en>CONTEXT</span><b>1M</b></div>
+      <div><span data-ja>最大出力</span><span data-en>MAX OUTPUT</span><b>128k</b></div>
+      <div><span data-ja>知識</span><span data-en>KNOWLEDGE</span><b>2026-05</b></div>
+    </div>
+    <ul class="uses">
+      <li><span data-ja>仕様の分解とタスク設計</span><span data-en>Decomposing specs into tasks</span></li>
+      <li><span data-ja>ワーカー出力の統合とレビュー</span><span data-en>Merging and reviewing worker output</span></li>
+      <li><span data-ja>横断的なリファクタリング</span><span data-en>Cross-cutting refactors</span></li>
+      <li><span data-ja>大規模コードベースの把握</span><span data-en>Reading large codebases</span></li>
+      <li><span data-ja>込み入った不具合の原因究明</span><span data-en>Root-causing gnarly bugs</span></li>
+      <li><span data-ja>設計上のトレードオフ検討</span><span data-en>Weighing design tradeoffs</span></li>
+    </ul>
+    <p class="note"><span data-ja><b>xhigh / max では thinking を無効化できません</b>（400 エラー）。その帯で回すときは max_tokens を 64k から。なお effort を上げても<b>返答が長くなるだけで短くはなりません</b>——短さが要るならプロンプトで指定してください。4系から設定を引き継がず、evals で振り直しを。知識が最も新しいのもこのモデルです。</span>
+      <span data-en><b>Thinking can't be disabled at xhigh or max</b> — those requests 400. Start max_tokens at 64k there. Effort also won't shorten replies on Opus 5, so prompt for length instead. Don't carry effort settings over from 4.x models; re-sweep them. It also has the most recent knowledge of the four.</span></p>
+  </section>
+
+  <section class="board" id="fable" style="--c:var(--fable)">
+    <div class="board-head"><span class="code">F</span>
+      <div><h2>Claude Fable 5</h2>
+        <p class="tagline"><span data-ja>長時間走るエージェントのための次世代モデル。一般提供されている中では最高性能。</span>
+          <span data-en>Next-generation intelligence for long-running agents — the most capable widely released model.</span></p></div>
+    </div>
+    <div class="roles">
+      <div><span class="k" data-ja>一般</span><span class="k" data-en>GENERAL</span><span data-ja>対話用途では基本的に不要</span><span data-en>Rarely the right pick for conversation</span></div>
+      <div><span class="k" data-ja>エージェント</span><span class="k" data-en>AGENTIC</span><span data-ja>長時間自律実行、並列エージェント統括</span><span data-en>Long autonomous runs, leading parallel agents</span></div>
+      <div><span class="k">effort</span><span data-ja>既定 high ／ 能力重視は xhigh ／ 定常作業は medium・low でも旧世代の xhigh を上回ることが多い</span><span data-en>high by default · xhigh when capability matters · medium and low still beat prior-gen xhigh</span></div>
+    </div>
+    <div class="specs">
+      <div><span data-ja>価格 / MTok</span><span data-en>PRICE / MTok</span><b>$10 · $50</b></div>
+      <div><span data-ja>コンテキスト</span><span data-en>CONTEXT</span><b>1M</b></div>
+      <div><span data-ja>最大出力</span><span data-en>MAX OUTPUT</span><b>128k</b></div>
+      <div><span data-ja>知識</span><span data-en>KNOWLEDGE</span><b>2026-01</b></div>
+    </div>
+    <ul class="uses">
+      <li><span data-ja>長時間の自律実行</span><span data-en>Long-running autonomous work</span></li>
+      <li><span data-ja>並列エージェントの統括</span><span data-en>Leading parallel agents</span></li>
+      <li><span data-ja>最難関のエンジニアリング課題</span><span data-en>Hardest engineering problems</span></li>
+      <li><span data-ja>やり直しが高くつく一発勝負</span><span data-en>One-shot work where rework is costly</span></li>
+    </ul>
+    <p class="note"><span data-ja><b>まず effort を下げてみる。</b> Fable 5 では effort が知能・遅延・費用の主要なつまみです。思考は常時オン。提供状況はプランと地域で異なります。API では、拒否はエラーではなく HTTP 200 と <code>stop_reason: "refusal"</code> で返るため、<code>content[0]</code> を前提にしたコードは壊れます。別モデルでの再試行は任意で、<code>fallbacks</code> パラメータ、SDK ミドルウェア、または自前の再試行のいずれかを使います。ドキュメント上のフォールバック先は Opus 4.8 です。また Fable 5 は 30 日間のデータ保持が必要な Covered Model のため、ゼロデータ保持（ZDR）では利用できません。ZDR の組織は、特定のワークスペースで 30 日保持を有効にし、そこ経由で使う必要があります。</span>
+      <span data-en><b>Try stepping effort down first.</b> On Fable 5, effort is the primary dial for intelligence, latency, and cost. Thinking is always on. Availability varies by plan and region. On the API a declined request is not an error: it returns HTTP 200 with <code>stop_reason: "refusal"</code>, so code that reads <code>content[0]</code> breaks on it. Retrying on another model is opt-in — the <code>fallbacks</code> parameter, SDK middleware, or your own retry. The documented fallback target is Opus 4.8. Fable 5 is also a Covered Model requiring 30-day data retention, so it is not available under zero data retention: a ZDR organization has to enable 30-day retention on a specific workspace and route Fable 5 traffic through it.</span></p>
+  </section>
+
+  <section class="board" id="haiku" style="--c:var(--haiku)">
+    <div class="board-head"><span class="code">H</span>
+      <div><h2>Claude Haiku 4.5</h2>
+        <p class="tagline"><span data-ja>フロンティアに近い知能を持つ、最速のモデル。</span>
+          <span data-en>The fastest model, with near-frontier intelligence.</span></p></div>
+    </div>
+    <div class="roles">
+      <div><span class="k" data-ja>一般</span><span class="k" data-en>GENERAL</span><span data-ja>大量の分類・抽出・整形</span><span data-en>Bulk classification, extraction, formatting</span></div>
+      <div><span class="k" data-ja>エージェント</span><span class="k" data-en>AGENTIC</span><span data-ja>末端ワーカー、回帰スイープ</span><span data-en>Leaf worker, regression sweeps</span></div>
+      <div><span class="k">effort</span><span data-ja>非対応。深さの調整はできません</span><span data-en>Not supported — there is no depth dial here</span></div>
+    </div>
+    <div class="specs">
+      <div><span data-ja>価格 / MTok</span><span data-en>PRICE / MTok</span><b>$1 · $5</b></div>
+      <div><span data-ja>コンテキスト</span><span data-en>CONTEXT</span><b>200k</b></div>
+      <div><span data-ja>最大出力</span><span data-en>MAX OUTPUT</span><b>64k</b></div>
+      <div><span data-ja>知識</span><span data-en>KNOWLEDGE</span><b>2025-02</b></div>
+    </div>
+    <ul class="uses">
+      <li><span data-ja>分類・タグ付け・ルーティング</span><span data-en>Classification, tagging, routing</span></li>
+      <li><span data-ja>構造化データの抽出</span><span data-en>Structured extraction</span></li>
+      <li><span data-ja>回帰・カバレッジスイープ</span><span data-en>Regression and coverage sweeps</span></li>
+      <li><span data-ja>ログや差分の要約</span><span data-en>Summarizing logs and diffs</span></li>
+    </ul>
+    <p class="note"><span data-ja><b>制約が2つあります。</b> コンテキストは 200k（他は 1M）、知識は 2025年2月まで。新しい話題や大きな入力を扱わせる層ではありません。判断が要る手順もここには置かないこと。</span>
+      <span data-en><b>Two real constraints.</b> 200k context against 1M elsewhere, and knowledge only through February 2025. Don't put recent topics, big inputs, or anything needing judgment on this tier.</span></p>
+  </section>
+
+  <footer>
+    <p data-ja>2026年7月28日に公式ドキュメントと照合。価格・対応状況・モデル構成は変わります。effort は <code>output_config.effort</code>、Claude Code では <code>/effort</code>。</p>
+    <p data-en>Checked against Claude Platform Docs on 2026-07-28; pricing, support, and the lineup all change. Effort is <code>output_config.effort</code>, or <code>/effort</code> in Claude Code.</p>
+    <p>
+      <span data-en>Co-authored with Claude (Anthropic). Every factual claim was checked against Anthropic's published documentation before release.</span>
+      <span data-ja>Claude（Anthropic）との共同制作。掲載しているすべての事実は、公開前に Anthropic の公式ドキュメントと照合しています。</span>
+    </p>
+    <p class="lic">
+      <span data-en><b>MIT License</b> &middot; &copy; 2026 Paulus Ery Wasito Adhi &middot; free to use, modify and redistribute with this notice retained.</span>
+      <span data-ja><b>MIT ライセンス</b> &middot; &copy; 2026 Paulus Ery Wasito Adhi &middot; この表示を残せば、再配布・改変・商用利用いずれも可。</span>
+    </p>
+  </footer>
+</div>
+
+<script>
+  var btnJa = document.getElementById('btn-ja');
+  var btnEn = document.getElementById('btn-en');
+  function setLang(lang){
+    var hide = (lang === 'ja') ? 'en' : 'ja';
+    document.querySelectorAll('[data-ja],[data-en]').forEach(function(el){
+      if (el.hasAttribute('data-' + hide)) { el.setAttribute('data-lang-hide',''); }
+      else { el.removeAttribute('data-lang-hide'); }
+    });
+    document.documentElement.lang = lang;
+    btnJa.setAttribute('aria-pressed', lang === 'ja');
+    btnEn.setAttribute('aria-pressed', lang === 'en');
+  }
+  btnJa.addEventListener('click', function(){ setLang('ja'); });
+  btnEn.addEventListener('click', function(){ setLang('en'); });
+  setLang('en');
+
+  // In-page jumps: scroll directly instead of letting the href resolve as
+  // navigation, which breaks inside sandboxed viewers and embedded frames.
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var target = document.getElementById(a.getAttribute('href').slice(1));
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    });
+  });
+</script>
+</body>
+</html>

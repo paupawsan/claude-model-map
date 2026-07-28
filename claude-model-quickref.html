@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<!--
+MIT License
+
+Copyright (c) 2026 Paulus Ery Wasito Adhi <paupawsan@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING IN THE
+SOFTWARE.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Model Quick Reference / Claude モデル早見表</title>
+
+<meta name="author" content="Paulus Ery Wasito Adhi">
+<meta name="copyright" content="&copy; 2026 Paulus Ery Wasito Adhi">
+<meta name="license" content="MIT">
+<meta name="dcterms.creator" content="Paulus Ery Wasito Adhi">
+<meta name="dcterms.rights" content="&copy; 2026 Paulus Ery Wasito Adhi">
+<meta name="dcterms.license" content="https://opensource.org/licenses/MIT">
+<link rel="license" href="https://opensource.org/licenses/MIT">
+<link rel="author" href="mailto:paupawsan@gmail.com">
+<meta name="description" content="One-page bilingual quick reference for choosing a Claude model and effort level. Fable 5, Opus 5, Sonnet 5, Haiku 4.5 — July 2026.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "Claude Model Quick Reference / Claude モデル早見表",
+  "description": "One-page bilingual quick reference for choosing a Claude model and effort level.",
+  "inLanguage": ["en", "ja"],
+  "version": "2026.07",
+  "datePublished": "2026-07-28",
+  "author": { "@type": "Person", "name": "Paulus Ery Wasito Adhi", "email": "paupawsan@gmail.com" },
+  "copyrightHolder": { "@type": "Person", "name": "Paulus Ery Wasito Adhi" },
+  "copyrightYear": 2026,
+  "creditText": "Paulus Ery Wasito Adhi <paupawsan@gmail.com>",
+  "license": "https://opensource.org/licenses/MIT"
+}
+</script>
+
+<style>
+  :root{
+    --paper:#E7EAEF;--board:#FFF;--ink:#13161B;--ink2:#5B636E;--rule:#D5DAE1;--amber:#EFB015;
+    --haiku:#009C95;--sonnet:#1266C2;--opus:#6E45A8;--fable:#D0003C;
+    --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic","Noto Sans JP","Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45;padding:0 0 48px}
+  .wrap{max-width:720px;margin:0 auto;padding:0 15px}
+
+  header{background:var(--ink);color:#fff;padding:18px 0;margin-bottom:22px}
+  h1{margin:0;font-size:21px;font-weight:800;letter-spacing:-.01em}
+  h1 span{display:block;font-size:13px;font-weight:700;color:#9AA3B0;margin-top:4px}
+  .stamp{margin-top:10px;font-family:var(--mono);font-size:10.5px;color:#9AA3B0;letter-spacing:.08em}
+
+  h2{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--ink2);margin:28px 0 10px;
+     display:flex;align-items:center;gap:9px}
+  h2 i{font-style:normal;font-weight:700;letter-spacing:0;font-size:12px}
+  h2::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+  .row{background:var(--board);border-radius:3px;border-left:6px solid var(--c);padding:12px 14px;
+       margin-bottom:9px;box-shadow:0 1px 0 rgba(19,22,27,.09)}
+  .row .top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .row b{font-size:16px;font-weight:800;letter-spacing:-.01em}
+  .row .meta{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink2);font-weight:700}
+  .en{font-size:13.5px;margin-top:5px}
+  .ja{font-size:12.5px;color:var(--ink2);margin-top:2px}
+  .eff{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;
+       border:1.5px solid var(--ink);border-radius:2px;padding:2px 7px;margin-top:8px}
+  .eff.na{border-color:var(--rule);color:var(--ink2)}
+  .eff.top{background:var(--amber);border-color:var(--amber)}
+
+  .lvl{display:flex;gap:12px;background:var(--board);border-radius:3px;padding:10px 13px;margin-bottom:7px;
+       box-shadow:0 1px 0 rgba(19,22,27,.09);align-items:flex-start}
+  .lvl .k{font-family:var(--mono);font-size:12px;font-weight:800;flex:0 0 58px}
+  .lvl .bar{flex:0 0 42px;display:flex;gap:2px;margin-top:4px}
+  .lvl .bar i{flex:1;height:7px;background:#DDE2E9}
+  .lvl .bar i.on{background:var(--ink)}
+  .lvl.top .bar i.on{background:var(--amber)}
+  .lvl div.txt{flex:1}
+
+  ul{list-style:none;margin:0;padding:0}
+  ul li{background:var(--board);border-radius:3px;padding:11px 13px 11px 34px;margin-bottom:7px;position:relative;
+        box-shadow:0 1px 0 rgba(19,22,27,.09)}
+  ul li::before{content:"";position:absolute;left:14px;top:16px;width:7px;height:7px;border-radius:50%;background:var(--amber)}
+  code{font-family:var(--mono);font-size:11.5px;background:#EDF0F4;padding:1px 4px;border-radius:2px}
+
+  footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--rule);font-size:11.5px;color:var(--ink2);line-height:1.6}
+  footer a{color:var(--ink);font-family:var(--mono);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  footer b{color:var(--ink)}
+
+  @media print{
+    body{background:#fff;padding:0}
+    header{background:#fff;color:#000;border-bottom:2px solid #000;padding:10px 0;margin-bottom:14px}
+    h1 span,.stamp{color:#555}
+    .row,.lvl,ul li{box-shadow:none;border:1px solid #ccc}
+    h2{margin:16px 0 8px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Claude Model Quick Reference
+      <span>Claude モデル早見表</span></h1>
+    <div class="stamp">JULY 2026 · FABLE 5 · OPUS 5 · SONNET 5 · HAIKU 4.5</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <h2>Pick a model <i>モデルを選ぶ</i></h2>
+
+  <div class="row" style="--c:var(--sonnet)">
+    <div class="top"><b>Sonnet 5</b><span class="meta">$3 / $15 · 1M</span></div>
+    <div class="en">The default. Chat, writing, research, and most coding — including work inside one feature boundary.</div>
+    <div class="ja">既定。チャット、文章、調査、そしてほとんどのコーディング。1機能ぶんの実装まではここで通します。</div>
+    <span class="eff">effort: high · low–medium at volume</span>
+  </div>
+
+  <div class="row" style="--c:var(--opus)">
+    <div class="top"><b>Opus 5</b><span class="meta">$5 / $25 · 1M</span></div>
+    <div class="en">Hard problems and orchestration: decomposing specs, cross-cutting refactors, merging worker output.</div>
+    <div class="ja">難問とオーケストレーション。仕様の分解、横断的なリファクタリング、ワーカー出力の統合。</div>
+    <span class="eff">effort: high · xhigh for coding</span>
+  </div>
+
+  <div class="row" style="--c:var(--fable)">
+    <div class="top"><b>Fable 5</b><span class="meta">$10 / $50 · 1M</span></div>
+    <div class="en">Long autonomous runs and parallel agents. Rarely needed for conversation.</div>
+    <div class="ja">長時間の自律実行と並列エージェントの統括。対話用途ではほぼ不要です。</div>
+    <span class="eff top">effort: high–xhigh</span>
+  </div>
+
+  <div class="row" style="--c:var(--haiku)">
+    <div class="top"><b>Haiku 4.5</b><span class="meta">$1 / $5 · 200k</span></div>
+    <div class="en">Bulk mechanical steps: classify, extract, format, route. Nothing that needs judgment.</div>
+    <div class="ja">大量の定型処理。分類・抽出・整形・ルーティング。判断を含む手順は置かないこと。</div>
+    <span class="eff na">effort: not supported</span>
+  </div>
+
+  <h2>Effort <i>effort の段階</i></h2>
+
+  <div class="lvl"><span class="k">low</span><span class="bar"><i class="on"></i><i></i><i></i><i></i><i></i></span>
+    <div class="txt"><div class="en">Speed and cost first — classification, quick lookups, subagents.</div>
+      <div class="ja">速度と費用が最優先。分類、簡単な検索、サブエージェント。</div></div></div>
+
+  <div class="lvl"><span class="k">medium</span><span class="bar"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
+    <div class="txt"><div class="en">Balanced. The clean step-down when you want to save.</div>
+      <div class="ja">バランス型。費用を抑えたいときの素直な一段下げ。</div></div></div>
+
+  <div class="lvl"><span class="k">high</span><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
+    <div class="txt"><div class="en"><b>Default.</b> Complex reasoning, hard coding, agentic work.</div>
+      <div class="ja"><b>既定値。</b> 複雑な推論、難しいコーディング、エージェント処理。</div></div></div>
+
+  <div class="lvl"><span class="k">xhigh</span><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
+    <div class="txt"><div class="en">Runs past 30 minutes. Fable 5, Opus 5, Sonnet 5 only.</div>
+      <div class="ja">30分を超える長丁場。Fable 5・Opus 5・Sonnet 5 のみ。</div></div></div>
+
+  <div class="lvl top"><span class="k">max</span><span class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
+    <div class="txt"><div class="en">Maximum capability, no spending constraint. Reserve it.</div>
+      <div class="ja">制約なしの最大能力。ここぞという場面だけに。</div></div></div>
+
+  <h2>Rules of thumb <i>運用の目安</i></h2>
+
+  <ul>
+    <li><div class="en">Run the pass on Sonnet 5 first; escalate only where it stalls.</div>
+        <div class="ja">まず Sonnet 5 で通し、詰まった箇所だけ上げる。</div></li>
+    <li><div class="en">Pick an effort level when a thread starts and hold it — swapping depth mid-thread makes behaviour inconsistent turn to turn.</div>
+        <div class="ja">effort はスレッド開始時に決めて固定する。途中で変えるとターンごとに挙動が揺れる。</div></li>
+    <li><div class="en">Effort tunes depth per step; task budgets tune breadth across a loop. Budgets are beta, on Opus 5, Fable 5, and Sonnet 5 — not Haiku 4.5.</div>
+        <div class="ja">effort は1ステップの深さ、task budget はループ全体の幅。budget はベータで Opus 5・Fable 5・Sonnet 5 に対応、Haiku 4.5 は非対応。</div></li>
+    <li><div class="en">At xhigh or max, set <code>max_tokens</code> to at least 64k.</div>
+        <div class="ja">xhigh・max で回すときは <code>max_tokens</code> を 64k 以上に。</div></li>
+    <li><div class="en">Escalating a model? Summarize and start a fresh thread rather than dragging the history up.</div>
+        <div class="ja">モデルを上げるときは履歴ごと持ち上げず、要約して新しいスレッドで上げる。</div></li>
+    <li><div class="en">Fable 5 can decline a request with HTTP 200 and <code>stop_reason: "refusal"</code>. Retrying elsewhere is opt-in — log which model answered.</div>
+        <div class="ja">Fable 5 は拒否時も HTTP 200 と <code>stop_reason: "refusal"</code> を返す。他モデルへの再試行は明示的に設定が必要。応答モデルをログに残す。</div></li>
+    <li><div class="en">Haiku 4.5 knows nothing after February 2025 and holds 200k, not 1M.</div>
+        <div class="ja">Haiku 4.5 の知識は2025年2月まで、コンテキストは 200k（他は 1M）。</div></li>
+  </ul>
+
+  <footer>
+    <p><b>Paulus Ery Wasito Adhi</b> · <a href="mailto:paupawsan@gmail.com">paupawsan@gmail.com</a> · MIT License &copy; 2026</p>
+    <p>Accurate as of July 2026; pricing and support change. Effort is <code>output_config.effort</code>, or <code>/effort</code> in Claude Code.<br>
+    2026年7月時点。価格・対応状況は変わります。</p>
+  </footer>
+</div>
+
+</body>
+</html>
