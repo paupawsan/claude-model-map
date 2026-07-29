@@ -10,7 +10,7 @@ Accurate as of **July 2026**. Covers Claude Fable 5, Opus 5, Sonnet 5, and Haiku
 
 ## Quick start
 
-1. Open `index.html` in any browser. No build step, no dependencies, no network calls.
+1. Open `index.html` in any browser. No build step, no dependencies — and opened locally, no network calls (see [Hosting and analytics](#hosting-and-analytics)).
 2. Tap **EN / 日本語** in the header to switch languages. Every string exists in both.
 3. `Ctrl/Cmd + P` to print — the stylesheet has a print mode that flattens the dark panels for paper.
 
@@ -63,6 +63,21 @@ The language toggle is ~15 lines of vanilla JS at the bottom. Default language i
 
 ---
 
+## Hosting and analytics
+
+The site is published with GitHub Pages: **Settings → Pages → Source: Deploy from a branch → `main` / `/ (root)`**. There is no build step, so nothing else is needed — `index.html` is served at the Pages root and `claude-model-quickref.html` at its own filename. The empty `.nojekyll` file disables Jekyll processing, which would otherwise silently drop any path beginning with an underscore.
+
+Pages gives you no server logs, so traffic is measured client-side by [GoatCounter](https://www.goatcounter.com/) — a ~3.5 KB script at the bottom of both HTML files. It sets no cookies, stores no personal data, and creates no cross-site identifier, so no consent banner is required under GDPR or the APPI.
+
+Two properties worth knowing:
+
+- **It only runs on the published site.** The block is gated on `location.hostname === 'paupawsan.github.io'`, so opening the file locally, serving it from a wiki, or forking it to another host makes no network calls whatsoever. Change or drop that hostname check if you fork and want stats of your own.
+- **Removing it is deleting one block.** The `<!-- Analytics: GoatCounter -->` script near `</body>` in each file is the whole integration. Nothing else references it.
+
+Swapping providers (Cloudflare Web Analytics, Plausible, Fathom) means replacing that one block with their tag. Google Analytics is the exception worth avoiding here: it sets cookies, so it would need a consent banner, and every string in this project has to exist in both English and Japanese.
+
+---
+
 ## Keeping it current
 
 Model names, pricing, and effort support change often. Check against the source before relying on a number:
@@ -83,7 +98,7 @@ Two things that are easy to get wrong and worth re-checking after any model rele
 
 ## 日本語
 
-`index.html` をブラウザで開くだけで使えます。ヘッダの **EN / 日本語** で言語を切り替え、`Ctrl/Cmd + P` で印刷できます。ビルド不要・依存なし・外部通信なしの単一ファイルです。
+`index.html` をブラウザで開くだけで使えます。ヘッダの **EN / 日本語** で言語を切り替え、`Ctrl/Cmd + P` で印刷できます。ビルド不要・依存なしの単一ファイルです。外部通信は、公開サイト（`paupawsan.github.io`）でのアクセス解析ビーコン 1 件のみ。ローカルで開いた場合や別ホストに置いた場合は一切通信しません。
 
 構成は「スケール」順です。**01 呼び出し単位**でモデルと effort を選び、**02 スレッド単位**で固定すべきものを決め、**03 ループ全体**で予算と受け渡しを設計します。04〜06 は effort の 5 段階、使い分け表、各モデルの詳細（価格・コンテキスト・最大出力・知識カットオフ）です。
 
@@ -101,6 +116,7 @@ Two things that are easy to get wrong and worth re-checking after any model rele
 | `claude-model-quickref.html` | One-page quick reference — the same guidance without the decision tree. |
 | `LICENSE` | MIT license text. |
 | `README.md` | This file. |
+| `.nojekyll` | Empty marker that tells GitHub Pages to serve files as-is, without Jekyll. |
 
 Authorship and license are also embedded in the HTML `<head>` as standard meta tags, Dublin Core terms, `<link rel="license">`, and schema.org JSON-LD.
 

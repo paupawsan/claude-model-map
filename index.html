@@ -724,5 +724,19 @@ SOFTWARE.
     });
   });
 </script>
+
+<!-- Analytics: GoatCounter. Cookieless, no personal data, no cross-site
+     identifiers, so no consent banner is required. Gated on the published
+     hostname: opening this file locally, or from a fork on another host, makes
+     no network calls at all. Delete this block to remove analytics entirely. -->
+<script>
+  if (location.hostname === 'paupawsan.github.io') {
+    var gc = document.createElement('script');
+    gc.async = true;
+    gc.src = '//gc.zgo.at/count.js';
+    gc.setAttribute('data-goatcounter', 'https://paupawsan.goatcounter.com/count');
+    document.head.appendChild(gc);
+  }
+</script>
 </body>
 </html>
